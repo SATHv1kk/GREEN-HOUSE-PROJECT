@@ -1,0 +1,325 @@
+\documentclass[12pt, a4paper]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{fancyhdr}
+\usepackage{ragged2e}
+
+\geometry{
+    a4paper,
+    total={170mm,257mm},
+    left=20mm,
+    top=20mm,
+}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Simulated Smart Greenhouse for Elderly Farmers}
+\fancyfoot[C]{\thepage}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+    
+    \huge
+    \textbf{A Simulated Smart Greenhouse Control System for Elderly Farmers with ROS-Based Robotic Assistance}
+    
+    \vspace{1.5cm}
+    
+    \Large
+    A Technical Report on a Simulated Proof-of-Concept
+    
+    \vspace{2cm}
+    
+    \textbf{Author Name}
+    
+    \vfill
+    
+    \Large
+    \today
+    
+\end{titlepage}
+
+\tableofcontents
+
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+The agricultural sector is currently navigating a significant demographic shift toward an aging workforce, a trend that challenges the sustainability of traditional farming practices reliant on strenuous physical labor. This report presents the design and implementation of a **simulated** Smart Greenhouse system, conceived as a technological proof-of-concept to support and empower elderly farmers. The project’s central aim is to alleviate the physical and cognitive demands of greenhouse management by synergistically integrating automation, robotics, and an exceptionally intuitive user interface within a virtual environment.
+
+The system's foundation is a robust backend developed with the Flask web framework, which orchestrates a comprehensive suite of **simulated** environmental sensors and actuators. These virtual components cooperate to sustain optimal growing conditions for tomato cultivation by autonomously managing critical parameters. The control architecture is realized through a series of closed-loop systems in which real-time simulated sensor data directly informs virtual actuator responses, fostering a stable and productive environment with minimal need for human intervention.
+
+A primary innovation of this work is the integration of a Robot Operating System (ROS)-based **simulation** of an RX200 robotic arm. This subsystem is engineered to execute zone-specific tasks such as targeted watering and fertilization, thereby demonstrating the potential to diminish the requirement for manual labor. The robot's operations are seamlessly woven into the central control fabric, enabling precise and efficient resource management within the simulation.
+
+To guarantee accessibility, the system provides a clean, web-based interface featuring dynamic data visualizations. Its hallmark feature is the incorporation of a voice command system which leverages the browser-based **Web Speech API**. This API provides both **Speech-to-Text (STT)** functionality to interpret spoken commands and **Text-to-Speech (TTS)** capability to provide audible feedback, significantly lowering the technological barrier to entry.
+
+This report offers a holistic overview of the project, charting its course from the foundational research and architectural design to the granular details of the simulation's implementation. It concludes by summarizing the project's contributions and proposing tangible avenues for future research, primarily the evolution from this simulation to a physical hardware prototype.
+
+\cleardoublepage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\chapter{Introduction}
+
+\section{Background and Motivation}
+The global agricultural landscape is undergoing a profound transformation, driven by the dual pressures of a rising global population and a shifting demographic within the farming community itself. Many nations are witnessing a significant increase in the average age of farmers. This "graying" of the agricultural workforce poses a critical challenge, as traditional farming methods are often physically demanding. The need to produce more food with a less physically able workforce has catalyzed the adoption of technology in farming, a movement broadly known as AgriTech.
+
+Smart greenhouses are a key component of this technological revolution. By creating a controlled environment, they allow for year-round cultivation and optimized resource usage. However, managing a greenhouse involves a complex interplay of environmental factors. For an elderly farmer, these tasks can be overwhelming. This project emerges from the intersection of these trends: the aging farmer demographic and the potential of smart technology. It posits that technology can be a powerful equalizer. The focus is not just on automation for efficiency's sake, but on creating a system that is fundamentally accessible, user-friendly, and supportive of its intended users. The entire project is developed as a **simulation**, providing a cost-effective and flexible platform to test and refine these concepts before physical implementation.
+
+\section{Problem Statement}
+The core problem this project addresses is the high physical and cognitive load associated with traditional greenhouse management, which presents a significant barrier for elderly or physically limited individuals. The specific challenges include:
+
+\begin{itemize}
+    \item \textbf{Physical Strain:} Manual tasks such as watering, fertilizing, and operating ventilation systems are physically demanding.
+    \item \textbf{Constant Monitoring:} Greenhouse environments require continuous vigilance to check multiple environmental parameters.
+    \item \textbf{Cognitive Complexity:} Understanding and adjusting for optimal environmental ranges can be a source of stress.
+    \item \textbf{Technological Barriers:} Existing smart systems are often designed for commercial operations with complex interfaces that can be inaccessible to users who are not tech-savvy.
+\end{itemize}
+
+The central challenge is to design a holistic system that automates strenuous tasks, simplifies decision-making, and provides an intuitive interface. The system must act as a reliable assistant, empowering the user rather than overwhelming them with technology.
+
+\section{Project Objectives}
+To address the problem statement, this project aims to achieve the following objectives within a simulated framework:
+
+\begin{enumerate}
+    \item \textbf{Develop a Realistic Greenhouse Simulation:} To create a robust software simulation of a greenhouse, including dynamic virtual sensors for temperature, humidity, soil moisture, etc.
+    \item \textbf{Implement Autonomous Environmental Control:} To design a closed-loop control system where simulated actuators automatically respond to virtual sensor readings.
+    \item \textbf{Integrate a Robotic Assistance Simulation:} To incorporate a simulated ROS-based robotic arm (RX200) capable of performing targeted tasks.
+    \item \textbf{Create an Accessible User Interface:} To build an intuitive, web-based dashboard for visualizing the simulation and providing simple controls.
+    \item \textbf{Implement a Voice Command System:} To integrate a voice-activated control system using the Web Speech API for both commands (STT) and feedback (TTS).
+\end{enumerate}
+
+\section{Scope and Limitations}
+This project is conceived and executed as a comprehensive software simulation. Its scope is defined by the following boundaries:
+
+\begin{itemize}
+    \item \textbf{Purely Simulation-Based:} The project is entirely software. All sensors, actuators, and the robot are virtual entities. The goal is to create a robust proof-of-concept.
+    \item \textbf{Target Crop Focus:} The environmental parameters are configured for tomato cultivation.
+    \item \textbf{Simulated Robotics:} The robotic arm is a software simulation and does not involve a physical ROS installation or hardware.
+    \item \textbf{Web-Based Interface:} The primary user interface is a web application accessible via a modern browser.
+    \item \textbf{Voice Recognition Dependency:} Voice functionality depends on browser support for the Web Speech API.
+\end{itemize}
+
+\section{Report Organization}
+This report is structured to provide a clear account of the project. Chapter 2 presents a review of related work. Chapter 3 details the system's architecture. Chapter 4 provides a look at the implementation. Chapter 5 discusses testing. Finally, Chapter 6 concludes the report.
+
+\chapter{Context and Related Work}
+
+\section{Precision Agriculture and IoT}
+Precision Agriculture (PA) represents a shift to a data-centric and targeted methodology. The Internet of Things (IoT) has been a primary catalyst, facilitating the deployment of affordable sensors and networks (Kamilaris et al., 2017). As detailed by Abbasi et al. (2022), Wireless Sensor Networks (WSNs) are instrumental in gathering real-time data. This granular data empowers farmers to make informed decisions. Our project internalizes these principles by constructing a simulated WSN within the greenhouse, where each virtual sensor acts as a network node. Our system advances by closing the loop, using this data to drive a fully autonomous control system.
+
+\section{Automated Greenhouse Control Systems}
+The ambition to automate greenhouse environments is well-established. Contemporary systems employ advanced control strategies, including PID controllers and fuzzy logic systems (Bennis et al., 2021). Fuzzy logic offers adaptability in managing biological systems using linguistic rules (Shamshiri et al., 2018). Our project implements a deterministic, rule-based control system, which can be viewed as a precursor to a fuzzy logic framework. This approach was deliberately chosen for its simplicity and interpretability.
+
+\section{Human-Computer Interaction (HCI) for Specialized Domains}
+The efficacy of any technology is determined by its usability. As established by Czaja and Lee (2007), age-related changes can create barriers to interacting with complex digital systems. Design guidelines advocate for larger text, high-contrast palettes, and simplified navigation (Mitzner et al., 2010). The web interface of our system was engineered with these principles at its core. The most pivotal HCI contribution is the integration of a Voice User Interface (VUI). Research by Portet et al. (2013) has demonstrated that voice can be a more natural interaction modality for many older adults. By enabling users to manage their greenhouse with simple spoken commands, our system dramatically lowers the technological barrier.
+
+\section{Robotics in Agriculture}
+The application of robotics in agriculture ("Agri-robotics") is a burgeoning field. The Robot Operating System (ROS) has emerged as a de facto standard, providing a flexible framework for robot software (Quigley et al., 2009). A review by Bac et al. (2014) details the state of the art in robotic harvesting. Our project incorporates a simulated RX200 robotic arm. Its ability to perform zone-specific watering and fertilization embodies a core tenet of agricultural robotics: precision. This targeted action directly addresses the project's goal of mitigating physical strain.
+
+\section{Project Contribution}
+While extensive research exists within these individual domains, a gap persists in work that holistically integrates them for small-scale, non-commercial application. This project contributes by bridging that gap, offering an integrated proof-of-concept that places user accessibility at the forefront. It synthesizes these advanced technologies into a practical, empowering tool for a specific user demographic.
+
+\chapter{System Design and Architecture}
+
+\section{Overall System Architecture}
+The architecture of the simulated Smart Greenhouse system is intentionally modular and scalable. It employs a multi-tiered design that logically separates the backend processing, frontend presentation, and core control systems. The overall architecture is conceptually illustrated in Figure 3.1.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/system_architecture.png}
+    \caption{High-Level System Architecture Diagram}
+    \label{fig:arch}
+\end{figure}
+
+The system is composed of four primary architectural layers:
+\begin{itemize}
+    \item \textbf{Frontend (Web Interface):} A client-side application responsible for rendering the UI and capturing user inputs.
+    \item \textbf{Backend (Flask Application):} A server-side application that functions as the system's central hub, serving the frontend and exposing a RESTful API.
+    \item \textbf{Greenhouse Controller:} The cognitive core of the system, a singleton class that manages the entire state of the simulated environment.
+    \item \textbf{Simulated Environment:} A collection of Python classes that model the virtual components: Sensors, Actuators, and the Robot.
+\end{itemize}
+Communication between the frontend and backend is handled exclusively via stateless HTTP requests to the RESTful API.
+
+\section{Backend Design (Flask)}
+The backend is constructed using Flask, a lightweight Python web framework. It has three principal responsibilities: serving the frontend, exposing a RESTful API, and orchestrating the simulation by managing the `GreenhouseController` instance. The design loosely adheres to the Model-View-Controller (MVC) architectural pattern.
+
+\section{Frontend Design (UI/UX)}
+The frontend was designed from the ground up with the primary user group in mind. The UI is partitioned into three main sections:
+\begin{itemize}
+    \item \textbf{Left Sidebar (Sensor Data):} A real-time dashboard of all critical environmental parameters.
+    \item \textbf{Center Panel (Greenhouse Layout):} A clear schematic of the greenhouse showing the four operational zones and the animated robot's location.
+    \item \textbf{Right Sidebar (Actuator Controls):} A set of simple toggle buttons for each of the virtual actuators.
+\end{itemize}
+A prominently displayed microphone icon serves as the single entry point for activating the voice command system.
+
+\section{Closed-Loop Control Systems}
+The foundation of the greenhouse's autonomy lies in its array of simulated closed-loop control systems. Each system is engineered to regulate a specific environmental parameter within a predefined optimal range. The control strategies are implemented as core logic within the `GreenhouseController`. A representative control loop is illustrated in Figure 3.2.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/temp_control_loop.png}
+    \caption{Temperature Control Loop Diagram}
+    \label{fig:loop}
+\end{figure}
+
+\section{Robotic Subsystem Simulation}
+The robotic subsystem is designed to abstract away and automate key physical tasks within the simulation. The `ros_simulation/rx200_robot.py` class encapsulates the virtual robot's state and capabilities, including its position, status, and actions like watering and fertilizing specific zones. The `GreenhouseController` acts as the sole taskmaster for the robot, translating high-level commands from the API into actions within the simulation.
+
+\chapter{Implementation Details}
+
+\section{Environment Simulation}
+The fidelity of the simulation is paramount. This was achieved through the implementation of the sensor and actuator classes.
+
+\subsection{Sensor Simulation}
+Each sensor class in the `sensors/` directory is a Python object that simulates the dynamic behavior of a physical sensor. Its `get_value()` method calculates a realistic, fluctuating reading based on the current state of the simulated environment, including the influence of virtual actuators. This creates a believable and interactive feedback loop.
+
+\subsection{Actuator Simulation}
+The actuator classes in the `actuators/` directory are simpler state machines. Their primary responsibility is to maintain their current state (e.g., `is_on`). The decision-making logic of *when* to toggle an actuator is externalized to the central `GreenhouseController`.
+
+\section{Core Control Logic}
+The `controllers/greenhouse_controller.py` module is the operational heart of the backend. It is a singleton class that holds the authoritative state of the greenhouse. It initializes all simulated components, manages their state, runs the automation logic, and exposes a clean API facade for the web layer.
+
+\section{RESTful API}
+The API, defined in the `app.py` file, provides the vital communication channel between the frontend and the backend. It consists of a series of endpoints that correspond to specific actions or data requests. For instance, manual control of actuators is handled through the `/api/toggle_actuator` endpoint. The associated `toggle_actuator()` function in the Flask application is designed to receive a POST request containing a JSON payload that specifies the target actuator. This function then invokes the corresponding method on the central `GreenhouseController` instance, which in turn updates the state of the appropriate virtual actuator in the simulation. This clean separation of concerns ensures that the web-facing API layer is decoupled from the core simulation logic.
+
+Other key endpoints follow a similar pattern:
+\begin{itemize}
+    \item \textbf{A `GET` endpoint} for fetching the complete, real-time state of the simulation.
+    \item \textbf{A `POST` endpoint} for toggling the day/night cycle.
+    \item \textbf{Multiple `POST` endpoints} for commanding the robot, such as moving it to a specific zone or initiating a task like watering or fertilizing.
+\end{itemize}
+This API design is simple, stateless, and adheres to REST principles, making it robust and easy to maintain.
+
+\section{Voice Command Integration}
+The voice command system is implemented on the client-side in `static/js/app.js`, harnessing the browser's native **Web Speech API**. This powerful API provides two key pieces of functionality:
+\begin{enumerate}
+    \item \textbf{Speech Recognition (Speech-to-Text):} The `SpeechRecognition` interface listens for spoken audio through the microphone, transcribes it into text, and makes that text available to the JavaScript code.
+    \item \textbf{Speech Synthesis (Text-to-Speech):} The `SpeechSynthesis` interface takes a string of text and uses the operating system's TTS engine to speak it aloud, providing audible feedback.
+\end{enumerate}
+The implementation workflow captures spoken commands using STT, parses the resulting text for keywords, invokes the appropriate backend API endpoint, and then uses TTS to provide confirmation to the user (e.g., speaking the words, "Turning on the heater").
+
+\section{Software Stack}
+The project was built using a focused software stack: Python 3 with Flask for the backend, and standard HTML, CSS, and "vanilla" JavaScript for the frontend.
+
+\chapter{Testing and Verification}
+
+\section{Testing Strategy}
+Ensuring the reliability of the simulation requires a structured testing strategy. The approach integrates unit tests for component validation, integration tests for API verification, and user acceptance tests to confirm the system meets user needs.
+
+\section{Sample Test Cases}
+The following table outlines sample test cases for critical functionalities. The table has been formatted to prevent text overflow.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{0.2\linewidth}|p{0.3\linewidth}|>{\RaggedRight\arraybackslash}p{0.4\linewidth}|}
+        \hline
+        \textbf{Functionality} & \textbf{Test Case} & \textbf{Expected Outcome} \\
+        \hline
+        \textbf{Automated Temp. Control} & Set the simulated temperature below the optimal range. & The system must automatically activate the 'Heater' actuator. The API response should reflect that the heater is on. \\
+        \hline
+        \textbf{Manual Override} & The user clicks the 'Grow Lights' button on the web interface. & A POST request is sent to the toggle actuator endpoint. The button's visual state must change, and the API data must confirm the lights are on. \\
+        \hline
+        \textbf{Voice Command (Movement)} & The user speaks the command, "Move to zone D." & The speech recognition must parse the command and send a POST request to the move robot endpoint with the correct zone. The robot icon on the UI must move to zone D. \\
+        \hline
+        \textbf{Voice Command (Action)} & The user speaks the command, "Water zone A." & A POST request is sent to the water zone endpoint. The UI must display a watering indicator in zone A, and the simulated soil moisture for that zone must increase. \\
+        \hline
+        \textbf{Day/Night Cycle} & The user clicks the day/night toggle button. & A POST request is sent to the toggle day/night endpoint. The UI theme must change, and the optimal sensor ranges in the API data must update. \\
+        \hline
+    \end{tabular}
+    \caption{Sample Test Cases}
+    \label{tab:testcases}
+\end{table}
+
+\section{Usability Considerations}
+Given the target audience, usability is the central design constraint. Key usability metrics for evaluation would include task success rate, time on task, error rate, learnability, and subjective satisfaction, especially concerning the usefulness of the voice interface.
+
+\chapter{Conclusion and Future Work}
+
+\section{Conclusion}
+This project successfully delivered a comprehensive, simulation-based Smart Greenhouse Control System. The work achieved its objectives by creating a realistic simulation, an autonomous control system, an integrated robotic assistant, and an accessible, voice-controlled interface. By synthesizing these diverse technologies, this project serves as a compelling proof-of-concept, charting a viable course for creating assistive technologies that can empower elderly individuals to remain engaged and productive in agriculture.
+
+\section{Future Work}
+While this project provides a comprehensive simulation, it is a stepping stone toward a real-world application. Future work should focus on:
+\begin{itemize}
+    \item \textbf{Physical Prototyping:} Transitioning the simulation to a physical prototype using real sensors, actuators, and a robotic arm.
+    \item \textbf{Predictive Control:} Incorporating machine learning models to predict environmental changes and proactively adjust the system.
+    \item \textbf{Computer Vision:} Equipping the robot with a camera to monitor plant health and detect diseases.
+    \item \textbf{Expanded Crop Support:} Creating a database of environmental profiles for different crops.
+    \item \textbf{Mobile Companion App:} Developing a mobile application for remote monitoring and control.
+\end{itemize}
+By pursuing these directions, this system can evolve from a powerful simulation into a transformative tool for the future of accessible agriculture.
+
+\begin{thebibliography}{9}
+\addcontentsline{toc}{chapter}{References}
+
+\bibitem{abbasi}
+Abbasi, A. Z., Islam, N., & Shaikh, Z. A. (2022). A review of wireless sensors and networks for precision agriculture. \textit{Computer Networks}, 216, 109216.
+
+\bibitem{bac}
+Bac, C. W., van Henten, E. J., Hemming, J., & Edan, Y. (2014). Harvesting robots for high-value crops: State-of-the-art review and challenges. \textit{Journal of Field Robotics}, 31(6), 888-911.
+
+\bibitem{bennis}
+Bennis, O., Fekri, A., & Amali, A. (2021). A review of control strategies for agricultural greenhouse environments. \textit{Journal of Agricultural Engineering}, 52(3).
+
+\bibitem{czaja}
+Czaja, S. J., & Lee, C. C. (2007). The impact of aging on access to technology. \textit{Universal Access in the Information Society}, 5(4), 341-349.
+
+\bibitem{kamilaris}
+Kamilaris, A., & Prenafeta-Boldú, F. X. (2017). Deep learning in agriculture: A survey. \textit{Computers and Electronics in Agriculture}, 147, 70-90.
+
+\bibitem{mitzner}
+Mitzner, T. L., Boron, J. B., Fausset, C. B., Adams, A. E., Charness, N., Czaja, S. J., ... & Sharit, J. (2010). Older adults and technology: Use, challenges, and future directions. \textit{The Gerontologist}, 50(5), 624-635.
+
+\bibitem{portet}
+Portet, F., Vacher, M., Golanski, C., Istrate, D., & Dorizzi, B. (2013). Design and evaluation of a smart home voice interface for the elderly: acceptability and objection. \textit{Personal and Ubiquitous Computing}, 17(1), 127-144.
+
+\bibitem{quigley}
+Quigley, M., Conley, K., Gerkey, B., Faust, J., Foote, T., Leibs, J., ... & Ng, A. Y. (2009). ROS: an open-source Robot Operating System. \textit{ICRA workshop on open source software}, 3(3.2), 5.
+
+\bibitem{shamshiri}
+Shamshiri, R. R., Jones, J. W., Thorp, K. R., Ahmad, D., Man, H. C., & Taheri, S. (2018). Review of optimum temperature, humidity, and vapour pressure deficit for microclimate evaluation and control in greenhouse cultivation of tomato: a review. \textit{International agrophysics}, 32(2).
+
+\bibitem{wolfert}
+Wolfert, S., Ge, L., Verdouw, C., & Bogaardt, M. J. (2017). Big data in smart farming–a review. \textit{Agricultural Systems}, 153, 69-80.
+
+\bibitem{zhang}
+Zhang, Q., Zhang, M., Chen, J., & Yang, L. (2017). A review of recent developments in robotic harvesting of fruit and vegetables. \textit{International Journal of Agricultural and Biological Engineering}, 10(4), 1-16.
+
+\bibitem{zheng}
+Zheng, Y., Zhu, Q., Zhang, Y., & Chen, Y. (2020). A survey of smart agriculture: Development and challenges. \textit{IEEE Access}, 8, 177884-177899.
+
+\end{thebibliography}
+
+\appendix
+\chapter{API Endpoint Summary}
+\begin{itemize}
+    \item \textbf{\texttt{GET /api/data}}: Retrieve current sensor, actuator, and robot data.
+    \item \textbf{\texttt{POST /api/toggle\_actuator}}: Toggle actuator state.
+    \item \textbf{\texttt{POST /api/toggle\_day\_night}}: Toggle day/night mode.
+    \item \textbf{\texttt{POST /api/move\_robot}}: Move robot to specified zone.
+    \item \textbf{\texttt{POST /api/water\_zone}}: Water specified zone.
+    \item \textbf{\texttt{POST /api/manure\_zone}}: Apply manure to specified zone.
+    \item \textbf{\texttt{POST /api/fertilize\_zone}}: Fertilize specified zone.
+\end{itemize}
+
+\end{document}

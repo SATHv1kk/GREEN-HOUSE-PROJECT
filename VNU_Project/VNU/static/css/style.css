@@ -1,0 +1,372 @@
+/* Custom styles for Smart Greenhouse */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 0.3s ease;
+}
+
+body.night-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+}
+
+.container-fluid {
+    padding-top: 70px;
+}
+
+.sensor-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,.1);
+}
+
+.sensor-card.night-mode {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    box-shadow: 0 4px 6px rgba(0,0,0,.3);
+}
+
+.sensor-name {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.sensor-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.sensor-unit {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+.actuator-btn {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.actuator-btn.on {
+    background-color: #28a745;
+    color: white;
+}
+
+.actuator-btn.off {
+    background-color: #6c757d;
+    color: white;
+}
+
+.actuator-btn.on.night-mode {
+    background-color: #34a853;
+    color: #f0f0f0;
+}
+
+.actuator-btn.off.night-mode {
+    background-color: #5a6268;
+    color: #f0f0f0;
+}
+
+.actuator-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,.2);
+}
+
+.actuator-btn:hover.night-mode {
+    box-shadow: 0 4px 8px rgba(255,255,255,.1);
+}
+
+#voiceControl {
+    width: 80px;
+    height: 80px;
+    font-size: 24px;
+    box-shadow: 0 4px 8px rgba(0,0,0,.2);
+}
+
+#voiceControl:hover {
+    transform: scale(1.1);
+}
+
+#voiceControl.recording {
+    background-color: #dc3545;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+    }
+}
+
+.card {
+    box-shadow: 0 4px 6px rgba(0,0,0,.1);
+    border: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.card.night-mode {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    box-shadow: 0 4px 6px rgba(0,0,0,.3);
+}
+
+.card-header {
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.card-header.night-mode {
+    background-color: #2d2d2d !important;
+    color: #e0e0e0;
+}
+
+.card-header.night-mode h5 {
+    color: #e0e0e0;
+}
+
+.zone-label {
+    font-weight: bold;
+    color: #155724;
+}
+
+.zone-label.night-mode {
+    color: #4caf50;
+}
+
+.zone-icon {
+    font-size: 2rem;
+}
+
+.current-zone {
+    background-color: #d4edda !important;
+    border: 2px solid #28a745 !important;
+}
+
+.current-zone.night-mode {
+    background-color: #2c5e3d !important;
+    border: 2px solid #4caf50 !important;
+}
+
+.robot-animation {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.alert {
+    border-radius: 10px;
+}
+
+.alert.night-mode {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+    border: 1px solid #444;
+}
+
+.btn-outline-primary {
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary.night-mode {
+    color: #4dabf7;
+    border-color: #4dabf7;
+}
+
+.btn-outline-primary.night-mode:hover {
+    background-color: #4dabf7;
+    color: #121212;
+}
+
+.btn-outline-primary.night-mode.active {
+    background-color: #4dabf7;
+    color: #121212;
+}
+
+/* Operation buttons styling */
+.btn-info.night-mode {
+    background-color: #1c7ed6;
+    border-color: #1c7ed6;
+    color: #e0e0e0;
+}
+
+.btn-warning.night-mode {
+    background-color: #f59f00;
+    border-color: #f59f00;
+    color: #e0e0e0;
+}
+
+.btn-success.night-mode {
+    background-color: #37b24d;
+    border-color: #37b24d;
+    color: #e0e0e0;
+}
+
+.btn-info.night-mode:hover,
+.btn-warning.night-mode:hover,
+.btn-success.night-mode:hover {
+    opacity: 0.8;
+}
+
+/* Zone view styling */
+.zone-view {
+    border: 2px dashed #28a745;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px;
+}
+
+.zone-view.current {
+    background-color: #d4edda;
+    border-color: #28a745;
+    box-shadow: 0 0 10px rgba(40, 167, 69, 0.3);
+}
+
+.zone-view.current.night-mode {
+    background-color: #2c5e3d;
+    border-color: #4caf50;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+}
+
+/* Robot indicator */
+#robot-indicator {
+    transition: all 0.5s ease;
+}
+
+.greenhouse-view.night-mode {
+    background-color: #1e1e1e !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container-fluid {
+        padding-top: 60px;
+    }
+    
+    .sensor-card {
+        margin-bottom: 5px;
+        padding: 10px;
+    }
+    
+    .sensor-name {
+        font-size: 0.8rem;
+    }
+    
+    .sensor-value {
+        font-size: 1.2rem;
+    }
+    
+    .actuator-btn {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Dark mode specific styles */
+.night-mode .btn {
+    --bs-btn-color: #e0e0e0;
+}
+
+.night-mode .btn-outline-light {
+    --bs-btn-color: #f8f9fa;
+    --bs-btn-border-color: #f8f9fa;
+    --bs-btn-hover-color: #121212;
+    --bs-btn-hover-bg: #f8f9fa;
+    --bs-btn-hover-border-color: #f8f9fa;
+}
+
+.night-mode .progress {
+    background-color: #2d2d2d;
+}
+
+.night-mode .progress-bar {
+    background-color: #4caf50;
+}
+
+.night-mode .text-muted {
+    color: #a0a0a0 !important;
+}
+
+/* Voice feedback styling */
+#voiceFeedback {
+    background-color: #e9ecef;
+    color: #212529;
+    border: 1px solid #dee2e6;
+}
+
+#voiceFeedback.night-mode {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+    border: 1px solid #444;
+}
+
+#voiceCommandText, #voiceResponseText {
+    color: #212529;
+}
+
+#voiceFeedback.night-mode #voiceCommandText,
+#voiceFeedback.night-mode #voiceResponseText {
+    color: #e0e0e0;
+}
+
+/* Zone effect styling */
+.zone-effect {
+    position: absolute;
+    font-size: 2rem;
+    z-index: 20;
+    animation: zoneEffect 2s ease-out forwards;
+}
+
+@keyframes zoneEffect {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(2);
+    }
+}
+
+.zone-water {
+    color: #17a2b8;
+}
+
+.zone-water.night-mode {
+    color: #339af0;
+}
+
+.zone-manure {
+    color: #ffc107;
+}
+
+.zone-manure.night-mode {
+    color: #f59f00;
+}
+
+.zone-fertilizer {
+    color: #28a745;
+}
+
+.zone-fertilizer.night-mode {
+    color: #40c057;
+}

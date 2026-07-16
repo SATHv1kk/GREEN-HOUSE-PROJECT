@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Greenhouse for Elderly Farmers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Top Bar -->
+    <nav class="navbar navbar-dark bg-success fixed-top py-1" style="min-height:68px; height:72px;">
+        <div class="container-fluid position-relative" style="min-height:68px; height:68px;">
+            <!-- Left: Tomato Emoji -->
+            <span class="fs-4 position-absolute top-50 start-0 translate-middle-y ps-4" style="line-height:1;">🍅</span>
+            <!-- Center: Title -->
+            <span class="navbar-brand fw-bold mb-0 text-center position-absolute top-50 start-50 translate-middle" style="line-height:1;">
+                Smart Greenhouse for Elderly Farmers
+            </span>
+            <!-- Right: Day/Night Toggle -->
+            <button
+                class="btn btn-outline-light rounded-circle d-flex align-items-center justify-content-center position-absolute top-50 end-0 translate-middle-y"
+                id="dayNightToggle"
+                style="width: 40px; height: 40px; padding: 0; line-height: 1; font-size: 1.5rem;">
+                <span id="dayNightIcon" style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">
+                    <i class="fas fa-sun"></i>
+                </span>         
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid mt-5 pt-4" style="margin-top:60px !important;">
+        <div class="row">
+            <!-- Left Sidebar - Live Sensor Values -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5><i class="fas fa-chart-line"></i> Live Sensor Values</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="sensorValues">
+                            <!-- Sensor values will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Zone Selection -->
+                <div class="card mt-3">
+                    <div class="card-header bg-info text-white">
+                        <h5><i class="fas fa-map"></i> Greenhouse Zones</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-outline-primary" id="zone-A" onclick="window.greenhouseApp.moveRobotToZone('A')">Zone A</button>
+                            <button class="btn btn-outline-primary" id="zone-B" onclick="window.greenhouseApp.moveRobotToZone('B')">Zone B</button>
+                            <button class="btn btn-outline-primary" id="zone-C" onclick="window.greenhouseApp.moveRobotToZone('C')">Zone C</button>
+                            <button class="btn btn-outline-primary" id="zone-D" onclick="window.greenhouseApp.moveRobotToZone('D')">Zone D</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center Content -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5><i class="fas fa-robot"></i> RX200 Robot Status</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <div class="robot-animation mb-3">
+                            <div class="robot-icon" style="font-size: 4rem;">🤖</div>
+                            <div class="robot-position mt-2">
+                                <strong>Position:</strong> <span id="robotPosition">Zone A</span>
+                            </div>
+                            <div class="robot-state mt-1">
+                                <strong>State:</strong> <span id="robotState">idle</span>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <button class="btn btn-info w-100 mb-2" id="waterZoneBtn">
+                                    <i class="fas fa-tint"></i> Water Zone
+                                </button>
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-warning w-100 mb-2" id="manureZoneBtn">
+                                    <i class="fas fa-poop"></i> Apply Manure
+                                </button>
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-success w-100 mb-2" id="fertilizeZoneBtn">
+                                    <i class="fas fa-leaf"></i> Fertilize
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="greenhouse-view mt-4">
+                            <h5>Greenhouse Layout</h5>
+                            <div class="position-relative" style="height: 300px; background-color: #e8f5e9; border-radius: 10px;">
+                                <!-- Zone A -->
+                                <div id="zone-view-A" class="position-absolute top-0 start-0 w-50 h-50 d-flex align-items-center justify-content-center" 
+                                     style="border-right: 2px dashed #28a745; border-bottom: 2px dashed #28a745;">
+                                    <div class="text-center">
+                                        <div class="zone-label">Zone A</div>
+                                        <div class="zone-icon">🌱</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Zone B -->
+                                <div id="zone-view-B" class="position-absolute top-0 end-0 w-50 h-50 d-flex align-items-center justify-content-center" 
+                                     style="border-left: 2px dashed #28a745; border-bottom: 2px dashed #28a745;">
+                                    <div class="text-center">
+                                        <div class="zone-label">Zone B</div>
+                                        <div class="zone-icon">🌱</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Zone C -->
+                                <div id="zone-view-C" class="position-absolute bottom-0 start-0 w-50 h-50 d-flex align-items-center justify-content-center" 
+                                     style="border-right: 2px dashed #28a745; border-top: 2px dashed #28a745;">
+                                    <div class="text-center">
+                                        <div class="zone-label">Zone C</div>
+                                        <div class="zone-icon">🌱</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Zone D -->
+                                <div id="zone-view-D" class="position-absolute bottom-0 end-0 w-50 h-50 d-flex align-items-center justify-content-center" 
+                                     style="border-left: 2px dashed #28a745; border-top: 2px dashed #28a745;">
+                                    <div class="text-center">
+                                        <div class="zone-label">Zone D</div>
+                                        <div class="zone-icon">🌱</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Robot position indicator -->
+                                <div id="robot-indicator" class="position-absolute" 
+                                     style="top: 20%; left: 20%; transform: translate(-50%, -50%); font-size: 2rem; z-index: 10;">
+                                    🤖
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Voice Control -->
+                <div class="text-center mt-3">
+                    <button class="btn btn-primary btn-lg rounded-circle" id="voiceControl">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <p class="mt-2 text-muted">Voice Control</p>
+                    <!-- Voice Command Feedback -->
+                    <div id="voiceFeedback" class="mt-3 p-3 rounded" style="display: none;">
+                        <div><strong>Voice Command:</strong> <span id="voiceCommandText"></span></div>
+                        <div><strong>System Response:</strong> <span id="voiceResponseText"></span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Sidebar - Actuator Controls -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h5><i class="fas fa-cogs"></i> Actuator Controls</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="actuatorControls">
+                            <!-- Actuator controls will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- System Status -->
+                <div class="card mt-3">
+                    <div class="card-header bg-danger text-white">
+                        <h5><i class="fas fa-heartbeat"></i> System Status</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <span>Robot Battery:</span>
+                            <span id="batteryLevel">100%</span>
+                        </div>
+                        <div class="progress mt-2">
+                            <div id="batteryBar" class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+</html>
