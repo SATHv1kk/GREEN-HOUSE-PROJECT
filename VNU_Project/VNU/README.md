@@ -42,8 +42,8 @@ A comprehensive greenhouse simulation system designed for elderly farmers with r
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd smart-greenhouse
+git clone https://github.com/SATHv1kk/GREEN-HOUSE-PROJECT.git
+cd GREEN-HOUSE-PROJECT/VNU_Project/VNU
 ```
 
 2. Install dependencies:
