@@ -8,7 +8,7 @@ A comprehensive greenhouse simulation system designed for elderly farmers with r
 - **Temperature**: 22-28°C (day) / 16-20°C (night)
 - **Humidity**: 60-80% (day) / 65-85% (night)
 - **Soil Moisture**: 40-60% (day) / 35-55% (night)
-- **Light Intensity**: 600-1000 lux (day) / 0-50 lux (night)
+- **Light Intensity**: 20000-50000 lux (day) / 10-50 lux (night)
 - **CO2 Level**: 350-800 ppm (day) / 300-500 ppm (night)
 - **pH Level**: 6.0-6.8
 - **Nutrient Level**: 70-90% (day) / 65-85% (night)
